@@ -1,0 +1,25 @@
+type Task @cacheControl(maxAge: 30) {
+  id: Int!
+  title: String!
+  description: String!
+  status: Int
+  ticket: Ticket 
+  created_at: String!
+  updated_at: String
+}
+
+input TaskWhereInput {
+  id: Int
+  title: String
+  description: String
+  status: Int
+  ticket_id: Int
+}
+
+input UpdatedTask {
+  id: Int
+  title: String
+  description: String
+  status: Int
+  ticket_id: Int
+}

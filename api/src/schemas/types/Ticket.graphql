@@ -1,0 +1,52 @@
+type Ticket @cacheControl(maxAge: 30) {
+    id: Int!
+    title: String!
+    description: String!
+    status: Int!
+    priority: Int!
+    team: Team
+    user: User
+    comments: [Comment!]
+    ticketrelations: [TicketRelation!]
+    ticketrelateds: [TicketRelation!]
+    tasks: [Task!]
+    created_at: String!
+    updated_at: String
+}
+
+input TicketWhereInput {
+    id: Int
+    title: String
+    description: String
+    status: Int
+    priority: Int
+    team_id: Int
+    user_id: Int
+}
+
+input NewTicket {
+    title: String!
+    description: String!
+    status: Int!
+    priority: Int!
+    team_id: Int!
+    user_id: Int!
+    comments_ids: [Int]
+    ticket_relations_ids: [Int]
+    ticket_relateds_ids: [Int]
+    tasks_ids: [Int]
+}
+
+input UpdatedTicket {
+    id: Int!
+    title: String
+    description: String
+    status: Int
+    priority: Int
+    team_id: Int
+    user_id: Int
+    comments_ids: [Int!]
+    ticket_relations_ids: [Int!]
+    ticket_relateds_ids: [Int!]
+    tasks_ids: [Int!]
+}

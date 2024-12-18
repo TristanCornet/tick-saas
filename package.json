@@ -1,0 +1,12 @@
+{
+  "name": "Tick & SAAS",
+  "version": "1.0.0",
+  "description": "",
+  "main": "",
+  "scripts": {
+    "dev": "docker compose up",
+    "dev:d": "docker compose up -d"
+  },
+  "author": "",
+  "license": "ISC"
+}

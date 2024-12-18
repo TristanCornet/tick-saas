@@ -1,0 +1,7 @@
+type Mutation {
+    createTicket(data: NewTicket!): Ticket
+    updateTicket(data: UpdatedTicket!): Ticket
+    deleteTicket(id: Int!): Ticket
+
+    updateTask(data: UpdatedTask!): Task
+}

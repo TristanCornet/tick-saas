@@ -1,0 +1,51 @@
+services:
+  database:
+    container_name: database
+    image: postgis/postgis:13-master
+    volumes:
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    env_file:
+      - .env
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U oclock -d parcours3"]
+      start_period: 15s
+      interval: 15s
+      timeout: 5s
+      retries: 20
+
+  api:
+    container_name: api
+    build:
+      context: ./api
+    restart: on-failure
+    volumes:
+      - ./api:/usr/src/api
+      - /usr/src/api/node_modules
+    ports:
+      - "4005:4005"
+      - "5555:5555" # Port used by Prisma Studio
+
+  frontend:
+    container_name: frontend
+    build:
+      context: ./frontend
+    volumes:
+      - ./frontend:/usr/src/frontend
+      - /usr/src/frontend/node_modules
+
+  reverseproxy:
+    container_name: reverseproxy
+    image: nginx:latest
+    ports:
+      - 80:80
+    volumes:
+      - ./nginx/local.conf:/etc/nginx/nginx.conf
+    depends_on:
+      - api
+      - frontend
+      - adminer
+
+  adminer:
+    container_name: adminer
+    image: adminer
+    restart: always

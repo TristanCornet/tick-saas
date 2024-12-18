@@ -1,0 +1,18 @@
+type Comment @cacheControl(maxAge: 30) {
+  id: Int!
+  content: String!
+  user: User
+  ticket: Ticket
+  children: [Comment!]
+  comment: Comment
+  created_at: String!
+  updated_at: String
+}
+
+input CommentWhereInput {
+  id: Int
+  content: String
+  user_id: Int
+  ticket_id: Int
+  comment_id: Int
+}

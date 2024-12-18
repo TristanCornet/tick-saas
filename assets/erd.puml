@@ -1,0 +1,79 @@
+@startuml erd
+hide circle
+' skinparam linetype ortho
+
+
+entity Team {
+  * id :int
+  --
+  * name :string
+  created_at :datetime
+  updated_at :datetime
+}
+
+entity User {
+  * id :int
+  --
+  * team_id :int
+  * name :string
+  * email :string
+  * password :string
+  created_at :datetime
+  updated_at :datetime
+}
+
+entity Ticket {
+  * id :int
+  --
+  * team_id :int
+  * user_id :int
+  * title :string
+  * description :string
+  * status :int
+  * priority :int
+  created_at :datetime
+  updated_at :datetime
+}
+
+entity Task {
+  * id :int
+  --
+  * ticket_id :int
+  * status :int
+  * title :string
+  * description :string
+  created_at :datetime
+  updated_at :datetime
+}
+
+entity Comment {
+  * id :int
+  --
+  * ticket_id :int
+  * parent_id :int
+  * user_id :int
+  * content :string
+  created_at :datetime
+  updated_at :datetime
+}
+
+entity TicketRelation {
+  * id :int
+  --
+  * ticket_id :int
+  * related_ticket_id :int
+  created_at :datetime
+  updated_at :datetime
+}
+
+Ticket ||--o{ Task
+Ticket ||--o{ Comment
+Comment ||--o{ Comment : parent_id
+Comment }o--|| User
+User |o--o{ Ticket
+Team ||-o{ User
+Team |o--o{ Ticket
+Ticket ||-o{ TicketRelation
+
+
+@enduml

@@ -1,0 +1,19 @@
+type Query {
+  ticket(id: Int!): Ticket
+  tickets(where: TicketWhereInput, limit: Int): [Ticket!]!
+
+  user(id: Int!): User
+  users(where: UserWhereInput, limit: Int): [User!]!
+
+  task(id: Int!): Task
+  tasks(where: TaskWhereInput, limit: Int): [Task!]!
+
+  comment(id: Int!): Comment
+  comments(where: CommentWhereInput, limit: Int): [Comment!]!
+
+  team(id: Int!): Team
+  teams(where: TeamWhereInput, limit: Int): [Team!]!
+
+  ticketRelation(id: Int!): TicketRelation
+  ticketRelations(where: TicketRelationWhereInput, limit: Int): [TicketRelation!]!
+}

@@ -1,0 +1,48 @@
+config:
+  target: "http://api.localhost" 
+  phases:
+    - duration: 60 
+      arrivalRate: 20 
+scenarios:
+  - name: "Get all tickets"
+    flow:
+    - post:
+        url: "/graphql"
+        json:
+          query: |
+            query Query {
+              tickets(limit: 1050) {
+                id
+                title
+                description
+                status
+                priority
+                created_at
+                team {
+                  name
+                }
+              }
+            }
+  - name: "Create a ticket"
+    flow:
+    - post:
+        url: "/graphql"
+        json:
+          query: |       
+            mutation Mutation($data: NewTicket!) {
+              createTicket(data: $data) {
+                title
+                description
+                priority
+                created_at
+                updated_at
+              }
+            }
+          variables: 
+            data: 
+              team_id: 1
+              user_id: 1
+              title: test
+              description: test
+              status: 1
+              priority: 1

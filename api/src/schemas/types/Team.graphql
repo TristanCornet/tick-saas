@@ -1,0 +1,13 @@
+type Team @cacheControl(maxAge: 240) {
+  id: Int!
+  name: String!
+  tickets: [Ticket!]
+  users: [User!]
+  created_at: String!
+  updated_at: String
+}
+
+input TeamWhereInput {
+  id: Int
+  name: String
+}

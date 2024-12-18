@@ -1,0 +1,81 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model comment {
+  id         Int        @id @default(autoincrement())
+  ticket     ticket    @relation(fields: [ticket_id], references: [id])
+  ticket_id  Int
+  comment    comment?  @relation("parent_comment", fields: [comment_id], references: [id])
+  comment_id Int?
+  children   comment[] @relation("parent_comment")
+  user_id    Int
+  content    String
+  created_at DateTime   @default(now()) @db.Timestamp(6)
+  updated_at DateTime   @default(now()) @db.Timestamp(6)
+}
+
+model task {
+  id          Int      @id @default(autoincrement())
+  ticket      ticket  @relation(fields: [ticket_id], references: [id])
+  ticket_id   Int
+  title       String   @db.VarChar(255)
+  description String
+  status      Int
+  created_at  DateTime @default(now()) @db.Timestamp(6)
+  updated_at  DateTime @default(now()) @db.Timestamp(6)
+}
+
+model team {
+  id         Int       @id @default(autoincrement())
+  name       String    @db.VarChar(255)
+  created_at DateTime  @default(now()) @db.Timestamp(6)
+  updated_at DateTime  @default(now()) @db.Timestamp(6)
+  users      user[]
+  tickets    ticket[]
+}
+
+model ticketrelation {
+  id                Int      @id @default(autoincrement())
+  ticket            ticket  @relation(fields: [ticket_id], references: [id])
+  ticket_id         Int
+  related_ticket    ticket  @relation(name: "related", fields: [related_ticket_id], references: [id])
+  related_ticket_id Int
+  created_at        DateTime @default(now()) @db.Timestamp(6)
+  updated_at        DateTime @default(now()) @db.Timestamp(6)
+}
+
+model ticket {
+  id              Int               @id @default(autoincrement())
+  team            team             @relation(fields: [team_id], references: [id])
+  team_id         Int
+  user            user             @relation(fields: [user_id], references: [id])
+  user_id         Int
+  title           String            @db.VarChar(255)
+  description     String
+  status          Int
+  priority        Int
+  created_at      DateTime          @default(now()) @db.Timestamp(6)
+  updated_at      DateTime          @default(now()) @db.Timestamp(6)
+  tasks           task[]
+  comments        comment[]
+  ticketrelations ticketrelation[]
+  ticketrelateds  ticketrelation[] @relation(name: "related")
+}
+
+model user {
+  id         Int       @id @default(autoincrement())
+  name       String    @db.VarChar(255)
+  email      String    @db.VarChar(255)
+  password   String    @db.VarChar(255)
+  team       team     @relation(fields: [team_id], references: [id])
+  team_id    Int
+  created_at DateTime  @default(now()) @db.Timestamp(6)
+  updated_at DateTime  @default(now()) @db.Timestamp(6)
+  tickets    ticket[]
+}

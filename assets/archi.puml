@@ -1,0 +1,38 @@
+@startuml architecture
+left to right direction
+
+component Frontend
+
+component Server {
+
+  port HTTP
+
+  component ReverseProxy [
+    ReverseProxy
+    nginx:1.21
+  ]
+
+  component Adminer
+
+  component API
+  database database {
+    component Redis [
+      Redis
+      redis:6.2
+    ]
+    component PostgreSQL [
+      PostgreSQL
+      postgis/postgis:13-master
+    ]
+  }
+}
+
+Frontend -- HTTP
+HTTP -- ReverseProxy
+ReverseProxy -- Adminer
+Adminer -- PostgreSQL
+ReverseProxy -- API
+API -- Redis
+API -- PostgreSQL
+
+@enduml

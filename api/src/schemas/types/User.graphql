@@ -1,0 +1,18 @@
+type User @cacheControl(maxAge: 240) {
+    id: Int!
+    name: String!
+    email: String!
+    password: String!
+    team: Team!
+    tickets: [Ticket!]
+    created_at: String!
+    updated_at: String
+}
+
+input UserWhereInput {
+    id: Int
+    name: String
+    email: String
+    password: String
+    team_id: Int
+}

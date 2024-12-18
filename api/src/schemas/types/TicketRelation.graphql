@@ -1,0 +1,13 @@
+type TicketRelation {
+    id: Int!
+    ticket: Ticket
+    relatedTicket: Ticket
+    created_at: String!
+    updated_at: String
+}
+
+input TicketRelationWhereInput {
+    id: Int
+    ticket_id: Int
+    related_ticket_id: Int
+}
